@@ -25,12 +25,7 @@ class FontClassifier(nn.Module):
             num_hidden_layers=num_layers,
             num_attention_heads=nhead,
             intermediate_size=dim_feedforward,
-            hidden_dropout_prob=dropout,
-            attention_probs_dropout_prob=dropout,
             max_position_embeddings=512,
-            pad_token_id=None,
-            type_vocab_size=1,
-            vocab_size=1,
         )
         self.cls_token = nn.Parameter(torch.zeros(1, 1, d_model))
         self.encoder = ModernBertModel(modernbert_config)
@@ -44,16 +39,15 @@ class FontClassifier(nn.Module):
         self,
         ops: Tensor,
         coords: Tensor,
-        attention_mask: Tensor | None,
+        attention_mask: Tensor,
     ) -> Tensor:
         b = ops.size(0)
         tokens = self.embed(ops, coords)
         cls = self.cls_token.expand(b, 1, -1)
         src = torch.cat([cls, tokens], dim=1)
 
-        if attention_mask is not None:
-            cls_mask = attention_mask.new_ones(b, 1)
-            attention_mask = torch.cat([cls_mask, attention_mask], dim=1)
+        cls_mask = attention_mask.new_ones(b, 1)
+        attention_mask = torch.cat([cls_mask, attention_mask], dim=1)
 
         output = self.encoder(inputs_embeds=src, attention_mask=attention_mask)
         summary = self.norm(output.last_hidden_state[:, 0, :])
