@@ -31,7 +31,6 @@ class LitGoogleFonts(LightningDataModule):
         ref: str = "main",
         max_len: int = 128,
         batch_size: int = 256,
-        num_shards: int = 8,
         num_workers: int = 2,
         prefetch_factor: int = 2,
     ) -> None:
@@ -42,7 +41,6 @@ class LitGoogleFonts(LightningDataModule):
         self.max_seq_len = max_len
         self.batch_size = batch_size
         self.num_workers = num_workers
-        self.num_shards = num_shards
         self.prefetch_factor = prefetch_factor
         self.val_ratio = 0.05
         self.test_ratio = 0.05
