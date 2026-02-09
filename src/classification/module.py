@@ -16,10 +16,9 @@ class FontClassifier(nn.Module):
         dim_feedforward: int,
         num_layers: int,
         num_classes: int,
-        dropout: float = 0.1,
     ) -> None:
         super().__init__()
-        self.embed = CommandEmbedding(d_model, dropout)
+        self.embed = CommandEmbedding(d_model)
         modernbert_config = ModernBertConfig(
             hidden_size=d_model,
             num_hidden_layers=num_layers,
@@ -30,10 +29,7 @@ class FontClassifier(nn.Module):
         self.cls_token = nn.Parameter(torch.zeros(1, 1, d_model))
         self.encoder = ModernBertModel(modernbert_config)
         self.norm = nn.LayerNorm(d_model)
-        self.head = nn.Sequential(
-            nn.Dropout(dropout),
-            nn.Linear(d_model, num_classes),
-        )
+        self.head = nn.Linear(d_model, num_classes)
 
     def forward(
         self,
@@ -58,10 +54,9 @@ class CommandEmbedding(nn.Module):
     scale: Annotated[Tensor, "buffer"]
     op_eye: Annotated[Tensor, "buffer"]
 
-    def __init__(self, d_model: int, dropout: float = 0.1) -> None:
+    def __init__(self, d_model: int) -> None:
         super().__init__()
         self.proj = nn.Linear(TYPE_DIM + COORD_DIM, d_model)
-        self.dropout = nn.Dropout(dropout)
 
         scale = torch.tensor(math.sqrt(d_model), dtype=torch.float32)
         self.register_buffer("scale", scale)
@@ -73,4 +68,4 @@ class CommandEmbedding(nn.Module):
         tokens = torch.cat([one_hot_ops, coords], dim=-1)
         x = self.proj(tokens)
         x = x * self.scale.type_as(x)
-        return self.dropout(x)
+        return x
