@@ -64,7 +64,7 @@ uv run tensorboard --logdir lightning_logs
 
 ## 実験結果
 
-1 エポックの学習で、テストデータに対して全体の accuracy **89%** を達成しました。
-各文字の F1 スコアは 0.82–0.93 の範囲にあり、マクロ平均の Precision / Recall / F1 はいずれも 0.89 です。
+1 エポックの学習で、テストデータに対して全体の accuracy **90%** を達成しました。
+各文字の F1 スコアは 0.82–0.96 の範囲にあり、マクロ平均の Precision / Recall / F1 はいずれも 0.90 です。
 
 詳細は [`results/`](results/) を参照してください。
