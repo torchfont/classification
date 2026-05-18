@@ -26,7 +26,7 @@ src/classification/
 └── optim.py            # WarmupCosineAnnealingLR
 ```
 
-## セットアップ
+## 依存関係のインストール
 
 [uv](https://docs.astral.sh/uv/) が必要です。
 
@@ -34,9 +34,20 @@ src/classification/
 uv sync
 ```
 
-### Dev Container
+## データセットのセットアップ
 
-VS Code の Dev Containers 拡張機能を使えば、環境構築を自動化できます。
+Google Fonts のフォントファイルを git submodule として `data/google/fonts/` に配置します。
+
+```bash
+git submodule update --init --depth 1 data/google/fonts
+```
+
+データは `torchfont` の `GlyphDataset` を通じて読み込まれます。
+`data/google/fonts/` 配下の OTF / TTF ファイルが再帰的にスキャンされ、A–Z のグリフサンプルが抽出されます。
+
+## Dev Container
+
+VS Code の Dev Containers 拡張機能を使えば、上記2つの手順を自動化できます。
 GPU がある場合は自動的に利用されます。
 
 ## 学習の実行
@@ -47,8 +58,6 @@ uv run python -m classification.train
 
 RTX 3060 Ti 程度の GPU が必要です。
 学習時間は 1 分半程度です。
-
-初回実行時に Google Fonts データセットのダウンロードが行われるため、時間がかかる場合があります。
 
 学習が完了すると `lightning_logs/` 以下に次のファイルが出力されます。
 

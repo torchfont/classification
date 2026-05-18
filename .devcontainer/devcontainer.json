@@ -26,7 +26,7 @@
 	"containerEnv": {
 		"UV_LINK_MODE": "copy"
 	},
-	"postCreateCommand": "uv sync",
+	"postCreateCommand": "uv sync && git submodule update --init --depth 1 data/google/fonts",
 	"customizations": {
 		"vscode": {
 			"extensions": [

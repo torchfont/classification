@@ -6,8 +6,19 @@ from lightning.pytorch import LightningDataModule
 from torch import Tensor
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader, random_split
-from torchfont.datasets import GoogleFonts
-from torchfont.transforms import LimitSequenceLength
+from torchfont.datasets import GlyphDataset, GlyphSample
+
+
+def _make_transform(max_len: int):
+    def transform(sample: GlyphSample) -> tuple[Tensor, Tensor, int, int]:
+        return (
+            sample.types[:max_len],
+            sample.coords[:max_len],
+            sample.style_idx,
+            sample.content_idx,
+        )
+
+    return transform
 
 
 def collate_fn(
@@ -28,7 +39,6 @@ class LitGoogleFonts(LightningDataModule):
     def __init__(
         self,
         root: str = "data/google/fonts",
-        ref: str = "main",
         max_len: int = 128,
         batch_size: int = 256,
         num_workers: int = 2,
@@ -37,7 +47,6 @@ class LitGoogleFonts(LightningDataModule):
         super().__init__()
         self.save_hyperparameters()
         self.root = Path(root)
-        self.ref = ref
         self.max_seq_len = max_len
         self.batch_size = batch_size
         self.num_workers = num_workers
@@ -46,23 +55,18 @@ class LitGoogleFonts(LightningDataModule):
         self.test_ratio = 0.05
         self.seed = 37414078
 
-        transform = LimitSequenceLength(max_len=self.max_seq_len)
         codepoints = [ord("A") + i for i in range(26)]
-        dataset = GoogleFonts(
-            root=Path(self.root),
-            ref=self.ref,
-            codepoint_filter=codepoints,
-            transform=transform,
-            download=True,
+        dataset = GlyphDataset(
+            root=self.root,
+            codepoints=codepoints,
+            transform=_make_transform(self.max_seq_len),
         )
         self.dataset = dataset
-        self.commit_hash = dataset.commit_hash
         self.dataset_len = len(dataset)
         self.num_style_classes = len(dataset.style_classes)
         self.num_content_classes = len(dataset.content_classes)
         self.save_hyperparameters(
             {
-                "commit_hash": self.commit_hash,
                 "dataset_len": self.dataset_len,
                 "num_style_classes": self.num_style_classes,
                 "num_content_classes": self.num_content_classes,

@@ -1,5 +1,4 @@
 # Custom settings for this project
-data/
 lightning_logs/
 
 # Byte-compiled / optimized / DLL files

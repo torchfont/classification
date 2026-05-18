@@ -3,7 +3,7 @@ from typing import Annotated
 
 import torch
 from torch import Tensor, nn
-from torchfont.io.outline import COORD_DIM, TYPE_DIM
+from torchfont.io import COORD_DIM, TYPE_DIM
 from transformers.models.modernbert.configuration_modernbert import ModernBertConfig
 from transformers.models.modernbert.modeling_modernbert import ModernBertModel
 
