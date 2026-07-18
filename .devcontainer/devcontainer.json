@@ -2,15 +2,15 @@
 	"name": "uv",
 	"image": "ghcr.io/astral-sh/uv:debian",
 	"features": {
-		"ghcr.io/devcontainers/features/common-utils:2": {}
+		"ghcr.io/devcontainers/features/common-utils:2.5.9": {}
 	},
 	"hostRequirements": {
 		"gpu": "optional"
 	},
 	"mounts": [
 		{
-			"source": "uv-cache",
-			"target": "/root/.cache/uv",
+			"source": "uv",
+			"target": "/home/vscode/.cache/uv",
 			"type": "volume"
 		},
 		{
@@ -26,6 +26,7 @@
 	"containerEnv": {
 		"UV_LINK_MODE": "copy"
 	},
+	"onCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.cache/uv .venv data",
 	"postCreateCommand": "uv sync && git submodule update --init --depth 1 data/google/fonts",
 	"customizations": {
 		"vscode": {
@@ -35,5 +36,6 @@
 				"tamasfe.even-better-toml"
 			]
 		}
-	}
+	},
+	"remoteUser": "vscode"
 }
