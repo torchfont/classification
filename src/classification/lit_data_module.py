@@ -7,15 +7,17 @@ from torch import Tensor
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader, random_split
 from torchfont.datasets import GlyphDataset, GlyphSample
+from torchfont.transforms import load_glyph
 
 
 def _make_transform(max_len: int):
     def transform(sample: GlyphSample) -> tuple[Tensor, Tensor, int, int]:
+        types, coords = load_glyph(sample.ref)
         return (
-            sample.types[:max_len],
-            sample.coords[:max_len],
+            types[:max_len],
+            coords[:max_len],
             sample.style_idx,
-            sample.content_idx,
+            sample.character_idx,
         )
 
     return transform
@@ -64,7 +66,7 @@ class LitGoogleFonts(LightningDataModule):
         self.dataset = dataset
         self.dataset_len = len(dataset)
         self.num_style_classes = len(dataset.style_classes)
-        self.num_content_classes = len(dataset.content_classes)
+        self.num_content_classes = len(dataset.character_classes)
         self.save_hyperparameters(
             {
                 "dataset_len": self.dataset_len,
@@ -72,16 +74,11 @@ class LitGoogleFonts(LightningDataModule):
                 "num_content_classes": self.num_content_classes,
             },
         )
-        length = len(self.dataset)
         g = torch.Generator().manual_seed(self.seed)
-
-        n_test = int(length * self.test_ratio)
-        n_val = int(length * self.val_ratio)
-        n_train = max(length - n_val - n_test, 0)
 
         self.train_dataset, self.val_dataset, self.test_dataset = random_split(
             self.dataset,
-            [n_train, n_val, n_test],
+            [1 - self.val_ratio - self.test_ratio, self.val_ratio, self.test_ratio],
             generator=g,
         )
 
