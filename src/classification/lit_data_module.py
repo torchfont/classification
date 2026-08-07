@@ -1,4 +1,5 @@
 from collections.abc import Sequence
+from functools import partial
 from pathlib import Path
 
 import torch
@@ -6,29 +7,19 @@ from lightning.pytorch import LightningDataModule
 from torch import Tensor
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import DataLoader, random_split
-from torchfont.datasets import GlyphDataset, GlyphSample
-from torchfont.transforms import load_glyph
-
-
-def _make_transform(max_len: int):
-    def transform(sample: GlyphSample) -> tuple[Tensor, Tensor, int, int]:
-        types, coords = load_glyph(sample.ref)
-        return (
-            types[:max_len],
-            coords[:max_len],
-            sample.style_idx,
-            sample.character_idx,
-        )
-
-    return transform
+from torchfont import GlyphData, Outline
+from torchfont.datasets import GlyphDataset
+from torchfont.transforms import LoadGlyph
 
 
 def collate_fn(
-    batch: Sequence[tuple[Tensor, Tensor, int, int]],
+    batch: Sequence[GlyphData[Outline]],
+    *,
+    max_len: int,
 ) -> tuple[Tensor, Tensor, Tensor]:
-    types_list = [types for types, _, _, _ in batch]
-    coords_list = [coords for _, coords, _, _ in batch]
-    content_classes = [content for _, _, _, content in batch]
+    types_list = [glyph.data.types[:max_len] for glyph in batch]
+    coords_list = [glyph.data.coords[:max_len] for glyph in batch]
+    content_classes = [glyph.character_idx for glyph in batch]
 
     types_tensor = pad_sequence(types_list, batch_first=True, padding_value=0)
     coords_tensor = pad_sequence(coords_list, batch_first=True, padding_value=0.0)
@@ -61,16 +52,14 @@ class LitGoogleFonts(LightningDataModule):
         dataset = GlyphDataset(
             root=self.root,
             codepoints=codepoints,
-            transform=_make_transform(self.max_seq_len),
+            transform=LoadGlyph(),
         )
         self.dataset = dataset
         self.dataset_len = len(dataset)
-        self.num_style_classes = len(dataset.style_classes)
         self.num_content_classes = len(dataset.character_classes)
         self.save_hyperparameters(
             {
                 "dataset_len": self.dataset_len,
-                "num_style_classes": self.num_style_classes,
                 "num_content_classes": self.num_content_classes,
             },
         )
@@ -91,7 +80,7 @@ class LitGoogleFonts(LightningDataModule):
             pin_memory=True,
             prefetch_factor=self.prefetch_factor if self.num_workers > 0 else None,
             persistent_workers=self.num_workers > 0,
-            collate_fn=collate_fn,
+            collate_fn=partial(collate_fn, max_len=self.max_seq_len),
             multiprocessing_context="fork",
         )
 
@@ -104,7 +93,7 @@ class LitGoogleFonts(LightningDataModule):
             pin_memory=True,
             prefetch_factor=self.prefetch_factor if self.num_workers > 0 else None,
             persistent_workers=self.num_workers > 0,
-            collate_fn=collate_fn,
+            collate_fn=partial(collate_fn, max_len=self.max_seq_len),
             multiprocessing_context="fork",
         )
 
@@ -117,6 +106,6 @@ class LitGoogleFonts(LightningDataModule):
             pin_memory=True,
             prefetch_factor=self.prefetch_factor if self.num_workers > 0 else None,
             persistent_workers=self.num_workers > 0,
-            collate_fn=collate_fn,
+            collate_fn=partial(collate_fn, max_len=self.max_seq_len),
             multiprocessing_context="fork",
         )

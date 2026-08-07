@@ -1,9 +1,6 @@
-import math
-from typing import Annotated
-
 import torch
 from torch import Tensor, nn
-from torchfont.io import COORD_DIM, TYPE_DIM
+from torchfont.nn import OutlineEmbedding
 from transformers.models.modernbert.configuration_modernbert import ModernBertConfig
 from transformers.models.modernbert.modeling_modernbert import ModernBertModel
 
@@ -18,7 +15,7 @@ class FontClassifier(nn.Module):
         num_classes: int,
     ) -> None:
         super().__init__()
-        self.embed = CommandEmbedding(d_model)
+        self.embed = OutlineEmbedding(d_model)
         modernbert_config = ModernBertConfig(
             hidden_size=d_model,
             num_hidden_layers=num_layers,
@@ -48,24 +45,3 @@ class FontClassifier(nn.Module):
         output = self.encoder(inputs_embeds=src, attention_mask=attention_mask)
         summary = self.norm(output.last_hidden_state[:, 0, :])
         return self.head(summary)
-
-
-class CommandEmbedding(nn.Module):
-    scale: Annotated[Tensor, "buffer"]
-    op_eye: Annotated[Tensor, "buffer"]
-
-    def __init__(self, d_model: int) -> None:
-        super().__init__()
-        self.proj = nn.Linear(TYPE_DIM + COORD_DIM, d_model)
-
-        scale = torch.tensor(math.sqrt(d_model), dtype=torch.float32)
-        self.register_buffer("scale", scale)
-        op_eye = torch.eye(TYPE_DIM, dtype=torch.float32)
-        self.register_buffer("op_eye", op_eye)
-
-    def forward(self, ops: Tensor, coords: Tensor) -> Tensor:
-        one_hot_ops = self.op_eye.type_as(coords)[ops]
-        tokens = torch.cat([one_hot_ops, coords], dim=-1)
-        x = self.proj(tokens)
-        x = x * self.scale.type_as(x)
-        return x

@@ -166,7 +166,7 @@ requires-dist = [
     { name = "tensorboard", specifier = ">=2.20.0" },
     { name = "torch", marker = "sys_platform != 'darwin'", specifier = ">=2.10.0", index = "https://download.pytorch.org/whl/cu130" },
     { name = "torch", marker = "sys_platform == 'darwin'", specifier = ">=2.10.0", index = "https://download.pytorch.org/whl/cpu" },
-    { name = "torchfont", specifier = ">=0.11.0" },
+    { name = "torchfont", specifier = ">=0.12.2" },
     { name = "transformers", specifier = ">=5.1.0" },
 ]
 
@@ -1510,27 +1510,27 @@ wheels = [
 
 [[package]]
 name = "torchfont"
-version = "0.11.0"
+version = "0.12.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "numpy" },
     { name = "torch", version = "2.13.0", source = { registry = "https://download.pytorch.org/whl/cpu" }, marker = "sys_platform == 'darwin'" },
     { name = "torch", version = "2.13.0+cu130", source = { registry = "https://download.pytorch.org/whl/cu130" }, marker = "sys_platform != 'darwin'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/dd/cd/b0ba9f212a790614f654af79998cdfa8c8924b8b2833ba1ea59ef0d5ab99/torchfont-0.11.0.tar.gz", hash = "sha256:56616376c135b30c824222d027f38c66ceccf145f232cf12cb9c3ca389aecb5b", size = 7190732, upload-time = "2026-07-18T19:49:33.4Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/ed/24/09221394493c92a171c177804e24046cfc217893c3d3a8bf0c27bf845a8a/torchfont-0.12.2.tar.gz", hash = "sha256:7e1612310e372e459b71134e8fe67c4e54dda14b05361b252fefde2ce1292c64", size = 3156796, upload-time = "2026-08-07T07:36:24.051Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e6/33/7384870ef9ae72c9ebc15106477715141603f92dbeea457a5a03e18cabc6/torchfont-0.11.0-cp310-abi3-macosx_10_12_x86_64.whl", hash = "sha256:77cb749bff44b86f96b44786130ee2469aeab6f3081ca0a51a1179b50fdc72fc", size = 1725852, upload-time = "2026-07-18T19:49:13.921Z" },
-    { url = "https://files.pythonhosted.org/packages/12/7b/03c5991e11578b361ba040e647ce3ce0c866bd361647468c610912314783/torchfont-0.11.0-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:7795587371cd629e5ce57948b097d30e9259cdeeb9c366083531793491f98622", size = 1644867, upload-time = "2026-07-18T19:49:15.737Z" },
-    { url = "https://files.pythonhosted.org/packages/3c/6f/119b3b15ab5cbb536d4df886ef96f4078adbcab7dbfdc3cdad4ae7ff625e/torchfont-0.11.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:badaf1a513a8f5ebb092d43be7b2a3a3dc7fc4d3bc44b16e4bc15e8d366d8520", size = 1886580, upload-time = "2026-07-18T19:49:17.222Z" },
-    { url = "https://files.pythonhosted.org/packages/a8/6e/04fceacd3f711b65d05b7beb07af73781f475eefcb5bfc7038f32994419e/torchfont-0.11.0-cp310-abi3-manylinux_2_35_aarch64.whl", hash = "sha256:8e9821065df6c22e8aa9cab6f5f6e85610a22619c10271522359cd117e55561b", size = 2689710, upload-time = "2026-07-18T19:49:18.726Z" },
-    { url = "https://files.pythonhosted.org/packages/f0/0a/a1880d5f88dec3c76d594595485b930f7388231989662f0ed383dad5b927/torchfont-0.11.0-cp310-abi3-win_amd64.whl", hash = "sha256:aa0e9f9a10461e46a21c1822b2e604822e4a3fbaa89561800a21b0dff250bc0a", size = 2927200, upload-time = "2026-07-18T19:49:20.929Z" },
-    { url = "https://files.pythonhosted.org/packages/70/58/e648d079d0eaf0399ee067ac9543749f340320e4de1eca87c0e3895afe6f/torchfont-0.11.0-cp310-abi3-win_arm64.whl", hash = "sha256:df9a67f5fc004c4e90be9a3aa11c0ba5bbb7c8dd71fac6c61afcfc227c2f1965", size = 2667708, upload-time = "2026-07-18T19:49:22.667Z" },
-    { url = "https://files.pythonhosted.org/packages/a5/d5/12a989c395ae5ba80d12664bc65ac1d07372dfce77251cb4e248b7dfda0b/torchfont-0.11.0-cp314-cp314t-macosx_10_12_x86_64.whl", hash = "sha256:25de9e101433b4851f081335b2b995c9065afe339d2b4b66aea27ad6ec60026d", size = 1725260, upload-time = "2026-07-18T19:49:23.959Z" },
-    { url = "https://files.pythonhosted.org/packages/ea/8b/92eb93678e9def8af8cfdbf676c5a587faf9edc1b4f92343a4f2d938d84c/torchfont-0.11.0-cp314-cp314t-macosx_11_0_arm64.whl", hash = "sha256:a6b781e6e7692d618e4502a8b454e401303e588028d11f666192d8c6cef726e6", size = 1631578, upload-time = "2026-07-18T19:49:25.291Z" },
-    { url = "https://files.pythonhosted.org/packages/dd/53/25b1c7e82e289b153a8e67399f6725b092b173ceac630680e096dd846379/torchfont-0.11.0-cp314-cp314t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c396266a1f8ab78cbdb422c420721532c055c29d59cdccdbb404118145e81ff2", size = 1875783, upload-time = "2026-07-18T19:49:26.852Z" },
-    { url = "https://files.pythonhosted.org/packages/b9/1a/ba2245c23a323af7b1dbfa3bd42912bea79ca4ecaf2bd5d1e831d3d88e91/torchfont-0.11.0-cp314-cp314t-manylinux_2_35_aarch64.whl", hash = "sha256:804e634e376bec6f64399b9625c4c449df13f0789758f5ce908cd5aa1259faed", size = 2678159, upload-time = "2026-07-18T19:49:28.299Z" },
-    { url = "https://files.pythonhosted.org/packages/1c/53/13f5ee10669beb63d18a3623a89e8a543e144c5e23c59d473cef7dd1dde4/torchfont-0.11.0-cp314-cp314t-win_amd64.whl", hash = "sha256:f7dd7cd0997af24116e30368861c8f1bcbce6f1f2004aec8a79eda47e73d4be3", size = 2917655, upload-time = "2026-07-18T19:49:29.746Z" },
-    { url = "https://files.pythonhosted.org/packages/1a/bf/d29c9ef09286ddad1cac11a29005ea95a06bc0df6405090e50755cf8fde8/torchfont-0.11.0-cp314-cp314t-win_arm64.whl", hash = "sha256:6050da43c158b9ed07ccec8cdc67ee783ac4b4ccc92d8d707f5abc532cee65bf", size = 2660799, upload-time = "2026-07-18T19:49:31.314Z" },
+    { url = "https://files.pythonhosted.org/packages/09/c3/278e5666bc53ca60d548f85341d03fa8b458e355a2de4d871b178678eda6/torchfont-0.12.2-cp310-abi3-macosx_10_12_x86_64.whl", hash = "sha256:29fbee6748f8e0efc6dbd0520392e01962015cca1c0b17a61368fa10e9ac5ef1", size = 1713532, upload-time = "2026-08-07T07:36:08.723Z" },
+    { url = "https://files.pythonhosted.org/packages/e0/7a/2dd760de7327ccee2aa7e2e50bae4b14a2d9e030efb0a4eb846cdc465f47/torchfont-0.12.2-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:84db44ee474bffad1991b72a0a486416cdd3e6de07d8a5d8bbd1d29b15102311", size = 1627033, upload-time = "2026-08-07T07:36:10.056Z" },
+    { url = "https://files.pythonhosted.org/packages/94/a0/84b86a7712f8a3611e9d3b2baa85495829eb66b5f04b6d4bfca52a997047/torchfont-0.12.2-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:c5844e1fdcf494ccd509afce0ba0e392bd6d853cd2b8f23740738648c03c22c9", size = 1866549, upload-time = "2026-08-07T07:36:11.407Z" },
+    { url = "https://files.pythonhosted.org/packages/b1/5c/f9f039dfdcf18b311d2037b46dc6d920294cbc0a194653f1264002ffe631/torchfont-0.12.2-cp310-abi3-manylinux_2_35_aarch64.whl", hash = "sha256:6666f274a2026323ae867dfc0d4f2055f88efbd66352bfa7ecfdd98514b61f96", size = 2668054, upload-time = "2026-08-07T07:36:12.67Z" },
+    { url = "https://files.pythonhosted.org/packages/98/41/c84bf5c697aca883eae576ba1341ee575110dce34342133f9158fffd5747/torchfont-0.12.2-cp310-abi3-win_amd64.whl", hash = "sha256:fcf74d50af5ede94ee92c5d3543a562ee43f6d04ef1e56a96978d538ac794e93", size = 2909827, upload-time = "2026-08-07T07:36:13.992Z" },
+    { url = "https://files.pythonhosted.org/packages/e1/01/7921b74c12430eb7e9b3cb4a776091c248b4d878aa91d83f8b8cfa8d553f/torchfont-0.12.2-cp310-abi3-win_arm64.whl", hash = "sha256:daf153039621411cf6f8b637963c5831a8668cfec56b767e5d62dc2b848d3626", size = 2654695, upload-time = "2026-08-07T07:36:15.477Z" },
+    { url = "https://files.pythonhosted.org/packages/6a/ff/7b447179ff3aa3024cb92aa0bb4497b2c98b910f67652995abb13fa4b1d7/torchfont-0.12.2-cp314-cp314t-macosx_10_12_x86_64.whl", hash = "sha256:e68fd0196b38b3286ae23b04f731197e4d4dc6d79b0bf7ab94ce4265f4adb50b", size = 1710842, upload-time = "2026-08-07T07:36:16.64Z" },
+    { url = "https://files.pythonhosted.org/packages/1d/09/cef6a49598d0f6dbaf281ea1baa209e5c1305404c235f6f848864333a051/torchfont-0.12.2-cp314-cp314t-macosx_11_0_arm64.whl", hash = "sha256:a3c68ae2620f147238d316e5b2c9411deef67cf60b36e1558effc139bef62fa0", size = 1619563, upload-time = "2026-08-07T07:36:17.775Z" },
+    { url = "https://files.pythonhosted.org/packages/34/06/763931114e33030cea80ea7bd0504cfd676965cd5585a9567efeed62bc39/torchfont-0.12.2-cp314-cp314t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:6362e6ef320c201ad591ae8e303297b7dd573457ba13c36ec2d477dc4c066362", size = 1857562, upload-time = "2026-08-07T07:36:18.962Z" },
+    { url = "https://files.pythonhosted.org/packages/1d/0f/1a18259458017a776b6b9bb21b7d6603018f344bac45183b7467ff383e8b/torchfont-0.12.2-cp314-cp314t-manylinux_2_35_aarch64.whl", hash = "sha256:fca7816e0f98207f90f2ea3fddd91a1d4cc1cddf7911d42ae1a8f0b25165724e", size = 2655763, upload-time = "2026-08-07T07:36:20.203Z" },
+    { url = "https://files.pythonhosted.org/packages/19/52/5b0a930884f7a8906ea12db2a62613e14e6a36fe8ed2805ebb212267b42c/torchfont-0.12.2-cp314-cp314t-win_amd64.whl", hash = "sha256:b073937bcf0eb839605ba4a62ba6725c87580c093d72c254b07817d170bcd193", size = 2900663, upload-time = "2026-08-07T07:36:21.337Z" },
+    { url = "https://files.pythonhosted.org/packages/92/a2/4fb54e573a558a086e64de183890462820bb5e8fcc639cf8203fef2e96fb/torchfont-0.12.2-cp314-cp314t-win_arm64.whl", hash = "sha256:9754253b553b45636541b2d7ea868f7716a0e2a0c15be377cea7f0d8ea0d9328", size = 2642865, upload-time = "2026-08-07T07:36:22.738Z" },
 ]
 
 [[package]]
