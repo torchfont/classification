@@ -25,7 +25,7 @@ class LitFontClassifier(LightningModule):
         dim_feedforward: int = 256,
         num_layers: int = 3,
         num_classes: int = 26,
-        lr: float = 1e-3,
+        lr: float = 3e-3,
     ) -> None:
         super().__init__()
         self.save_hyperparameters()

@@ -10,7 +10,7 @@ Google Fonts のグリフアウトラインデータから A–Z の 26 文字�
 | 項目 | 値 |
 | --- | --- |
 | エンコーダ | ModernBERT (HuggingFace Transformers) |
-| 入力表現 | 描画コマンド種別の one-hot + 座標を線形射影 |
+| 入力表現 | 描画要素種別の embedding + 有効座標の線形射影 |
 | プーリング | CLS トークン |
 | クラス数 | 26 (A–Z) |
 | スケジューラ | Warmup + Cosine Annealing |
@@ -20,7 +20,7 @@ Google Fonts のグリフアウトラインデータから A–Z の 26 文字�
 ```
 src/classification/
 ├── train.py            # 学習エントリーポイント
-├── module.py           # FontClassifier / CommandEmbedding
+├── module.py           # FontClassifier (torchfont.nn.OutlineEmbedding を使用)
 ├── lit_module.py       # LightningModule (学習・評価ロジック)
 ├── lit_data_module.py  # LightningDataModule (データ読込・分割)
 └── optim.py            # WarmupCosineAnnealingLR
@@ -73,7 +73,7 @@ uv run tensorboard --logdir lightning_logs
 
 ## 実験結果
 
-1 エポックの学習で、テストデータに対して全体の accuracy **91%** を達成しました。
-各文字の F1 スコアは 0.83–0.95 の範囲にあり、マクロ平均の Precision / Recall / F1 はいずれも 0.91 です。
+1 エポックの学習で、テストデータに対する accuracy は **83%** でした。
+各文字の F1 スコアは 0.72–0.90 の範囲で、マクロ平均の Precision / Recall / F1 はいずれも 0.83 です。
 
 詳細は [`results/`](results/) を参照してください。
